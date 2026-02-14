@@ -1,0 +1,23 @@
+.biddingGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+}
+
+.auctionCard {
+  background: #fff;
+  border: 1px solid #f3f3f4;
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px;
+}
+
+.timer {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  color: #ea4c89;
+  font-size: 20px;
+}

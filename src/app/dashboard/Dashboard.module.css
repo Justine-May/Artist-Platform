@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background-color: #ffffff;
+  overflow: hidden; /* Prevents double scrollbars */
+}
+
+.sidebar {
+  width: 260px; /* Base width from the 2nd picture */
+  background-color: #f8f7f4;
+  border-right: 1px solid #e5e5e1;
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.collapsed {
+  width: 80px; /* Collapsed width from the 2nd picture */
+}
+
+.mainFeed {
+  flex: 1; /* This makes the dashboard adjust when sidebar collapses */
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #f4f1ea; /* Atelier cream background */
+  min-width: 0; /* Ensures the container can shrink and expand */
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  color: #6e6d7a;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.active {
+  background: #ffffff;
+  color: #ea4c89; /* Pink highlight from your image */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.label {
+  margin-left: 15px;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.collapsed .label {
+  opacity: 0;
+  display: none; /* Removes text in collapse mode */
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.toggleBtn {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 6px;
+  cursor: pointer;
+}
