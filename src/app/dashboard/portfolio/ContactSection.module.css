@@ -11,11 +11,14 @@
 }
 
 .mainTitle {
-  font-size: 10rem;
+  /* clamp(minimum, preferred, maximum) */
+  font-size: clamp(3.5rem, 12vw, 10rem); 
   font-weight: 700;
   letter-spacing: -0.05em;
-  margin: 0 0 60px 0;
-  line-height: 0.9;
+  margin-bottom: 60px;
+  line-height: 0.85;
+  text-transform: lowercase; /* Optional: lowercase is very "atelier" style */
+  color: #000;
 }
 
 .grid {
@@ -131,4 +134,176 @@
   .grid { grid-template-columns: 1fr; gap: 50px; }
   .footerContact { flex-direction: column; gap: 30px; }
   .boldLink { font-size: 1.5rem; }
+}
+
+.statusMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 0;
+  animation: fadeIn 0.5s ease;
+}
+
+.statusMessage h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 20px 0 10px;
+}
+
+.statusMessage p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.errorText {
+  color: #ff0000;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ensure the submit button looks disabled during sending */
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ... keep your previous styles ... */
+
+.labelTitle {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #999;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.labelValue {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+  margin: 0;
+}
+
+.editRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Ensure form actions are neat */
+.formActions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.saveBtn, .cancelBtn {
+    flex: 1;
+    border: none;
+    padding: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-transform: uppercase;
+}
+
+.saveBtn { background: #000; color: #fff; }
+.cancelBtn { background: #eee; color: #000; }
+
+.contactSection {
+  padding: 100px 60px;
+  background: #fff;
+}
+
+.container { max-width: 1200px; margin: 0 auto; }
+
+.mainTitle {
+  font-size: 10rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  margin-bottom: 80px;
+  line-height: 0.9;
+}
+
+.grid { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; padding-bottom: 80px; }
+
+/* Info Column */
+.labelTitle { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 1px; margin-bottom: 5px; }
+.labelValue { font-size: 14px; font-weight: 600; margin: 0 0 30px 0; }
+.editBtn { background: none; border: 1px solid #000; padding: 8px 15px; font-size: 10px; font-weight: 800; cursor: pointer; }
+
+/* Form Column */
+.formRow { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.inputGroup { margin-bottom: 30px; display: flex; flex-direction: column; }
+.inputGroup label { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+.formInput, .formTextarea { border: none; border-bottom: 1px solid #000; padding: 10px 0; font-size: 16px; outline: none; background: transparent; }
+.submitBtn { background: #000; color: #fff; border: none; padding: 12px 40px; border-radius: 30px; font-weight: 600; cursor: pointer; width: fit-content; }
+
+/* CENTERED EMAIL & SOCIALS */
+.bigFooter {
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding: 100px 0 60px;
+  margin-top: 40px;
+}
+
+.emailWrapper { margin-bottom: 40px; }
+
+.boldEmail {
+  font-size: 4.5vw;
+  font-weight: 700;
+  color: #000;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  transition: opacity 0.2s;
+}
+.boldEmail:hover { opacity: 0.6; }
+
+.socialRow {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.socialLink {
+  color: #000;
+  transition: transform 0.2s, opacity 0.2s;
+  opacity: 0.8;
+}
+.socialLink:hover { transform: translateY(-3px); opacity: 1; }
+
+.subFooter {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 0;
+  border-top: 1px solid #eee;
+}
+.smallText { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; }
+
+/* Edit Form Styles */
+.editForm { background: #fafafa; padding: 30px; border-radius: 4px; }
+.formActions { display: flex; gap: 10px; margin-top: 20px; }
+.saveBtn { background: #000; color: #fff; border: none; padding: 10px 20px; cursor: pointer; flex: 1; }
+.cancelBtn { background: #eee; border: none; padding: 10px 20px; cursor: pointer; flex: 1; }
+
+@media (max-width: 900px) {
+  .mainTitle { font-size: 5rem; }
+  .grid { grid-template-columns: 1fr; }
+  .boldEmail { font-size: 2rem; }
 }
