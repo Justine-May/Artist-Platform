@@ -1,72 +1,494 @@
-.wrapper {
-  background-color: #f4f1ea;
-  min-height: 100vh;
-  padding: 80px 40px;
-}
-
-.title {
-  font-size: clamp(60px, 10vw, 120px);
-  font-weight: 900;
-  text-align: center;
-  letter-spacing: -4px;
-  text-transform: uppercase;
-  margin-bottom: 60px;
-}
-
-.galleryGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.aboutSplit {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  margin-top: 100px;
-  align-items: center;
-}
-
-.galleryGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 40px;
-  margin-top: 60px;
-}
-
-.artCard {
+/* --- NEW MODAL STYLES (3-Column Layout) --- */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.98);
+  z-index: 2000;
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
 }
 
-.imageWrapper {
+.editorialModal {
   width: 100%;
-  aspect-ratio: 4/5; /* Portrait gallery feel */
-  overflow: hidden;
-  background-color: #eee;
+  max-width: 1400px;
+  height: 80vh;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.4fr; /* Left (Big), Center, Right (Small) */
+  gap: 40px;
+  background: #fff;
 }
 
-.artImage {
+/* Column 1: Main Image */
+.colLeft {
+  width: 100%;
+  height: 100%;
+  background: #f4f4f4;
+  overflow: hidden;
+}
+
+.modalMainImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
 }
 
-.artCard:hover .artImage {
-  transform: scale(1.05);
+/* Column 2: Typography */
+.colCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  padding: 20px 0;
 }
 
-.artTitle {
-  font-size: 18px;
+.centerContent {
+  max-width: 400px;
+}
+
+.bigNumber {
+  font-size: 90px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 10px;
+  letter-spacing: -3px;
+}
+
+.modalCategory {
+  font-size: 40px;
+  font-weight: 800;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 15px;
+}
+
+.modalLabel {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #999;
+  margin-bottom: 40px;
+}
+
+.modalDesc p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.modalMeta {
+  font-size: 12px;
+  color: #000;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+  line-height: 1.8;
+}
+
+.closeBtnText {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: none;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Column 3: Thumbnails */
+.colRight {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.sideThumbItem {
+  flex: 1; /* Split height equally */
+  width: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.sideThumbItem:hover {
+  opacity: 1;
+}
+
+.sideThumbImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* --- EXISTING PAGE STYLES (Preserved) --- */
+.wrapper { padding: 40px; background: #fff; min-height: 100vh; }
+.portfolioHeader { margin-bottom: 40px; }
+.headerTop { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; font-weight: 700; }
+.mainTitle { font-size: 60px; font-weight: 900; letter-spacing: -2px; }
+
+/* Hero Section */
+.heroSection { margin-bottom: 60px; height: 60vh; position: relative; }
+.heroImageContainer { width: 100%; height: 100%; position: relative; }
+.heroImage { width: 100%; height: 100%; object-fit: cover; }
+.heroOverlay { position: absolute; bottom: 40px; left: 40px; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+.heroOverlay h2 { font-size: 32px; font-weight: 800; }
+
+/* Grid */
+.filterBar { display: flex; gap: 20px; margin-bottom: 40px; }
+.filterBtn { background: none; border: none; font-size: 12px; cursor: pointer; color: #999; }
+.activeFilter { color: #000; font-weight: 700; }
+.galleryGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+.imageContainer { width: 100%; aspect-ratio: 1/1; background: #eee; margin-bottom: 10px; }
+.image { width: 100%; height: 100%; object-fit: cover; }
+.artTitle { font-size: 14px; font-weight: 700; }
+.artSpecs { font-size: 12px; color: #666; }
+
+/* --- NEW DYNAMIC HERO STYLES --- */
+.heroSectionNew {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  margin-bottom: 60px;
+  overflow: hidden;
+  background: #111; /* Dark background while loading */
+}
+
+.heroImageNew {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Optional: overall slight darken */
+  /* filter: brightness(0.9); */
+}
+
+/* The container for text + dark overlay */
+.heroDynamicOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 40px 60px;
+  color: white; /* Text is always white */
+  
+  /* THE FIX: A smooth dark gradient from bottom up */
+  background: linear-gradient(
+    to top, 
+    rgba(0, 0, 0, 0.8) 0%,  /* Dark at bottom */
+    rgba(0, 0, 0, 0.4) 30%, /* Medium dark */
+    transparent 100%        /* Clear at top */
+  );
+  
+  pointer-events: none;
+}
+
+/* Left Side Content */
+.heroLeftContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Extra pop for text */
+}
+
+.heroArtistName {
+  font-size: 80px;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  margin: 0;
+}
+
+.heroArtworkTitle {
+  font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
+  opacity: 0.9;
 }
 
-.artMeta {
-  font-size: 14px;
-  color: #666;
-  text-transform: italic;
+/* Right Side Content */
+.heroRightContent {
+  text-align: right;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
+
+.heroRightContent p {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.degreesLabel {
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.heroRightContent {
+  text-align: right;
+  max-width: 400px; /* Limits the width of the text block */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  margin-bottom: 10px; /* Align slightly with the bottom text on the left */
+}
+
+.heroRightContent p {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.6;
+  text-transform: uppercase; /* Keeps the editorial look */
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+}
+
+/* --- ARTIST STATEMENT STYLES --- */
+.heroRightContent {
+  text-align: right;
+  max-width: 450px; /* Wider to accommodate a paragraph */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 15px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+  margin-bottom: 10px;
+}
+
+/* Display Mode */
+.statementDisplay {
+  display: flex;
+  align-items: flex-start; 
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.statementDisplay p {
+  font-size: 11px;       /* Keep it small and elegant */
+  font-weight: 600;
+  line-height: 1.8;      /* Increased line height for readability */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  white-space: pre-wrap; /* Preserves line breaks if you type them */
+}
+
+/* The Edit Button (Hidden until hover) */
+.editBtn {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  min-width: 24px; /* Prevents squishing */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  opacity: 0; 
+  transition: opacity 0.2s;
+  margin-top: -2px;
+}
+
+.heroRightContent:hover .editBtn {
+  opacity: 1;
+}
+
+/* Edit Mode */
+.editContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  background: rgba(0,0,0,0.6);
+  padding: 15px;
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+  width: 100%;
+}
+
+.statementInput {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.6;
+  width: 100%;
+  padding: 10px;
+  font-family: inherit;
+  outline: none;
+  resize: vertical; /* Allow resizing height */
+}
+
+.saveBtn {
+  background: white;
+  color: black;
+  border: none;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.saveBtn:hover {
+  background: #ddd;
+}
+
+.wrapper {
+  padding: 40px 60px; /* More horizontal padding */
+  background: #fff;
+  min-height: 100vh;
+  font-family: 'Helvetica Neue', sans-serif; /* Or your preferred font */
+}
+
+/* --- NEW CENTERED HEADER --- */
+.centeredHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center everything horizontally */
+  margin-bottom: 60px;
+}
+
+.headerArtistName {
+  font-size: 32px; /* Large, like the reference logo */
+  font-weight: 300; /* Thinner, elegant weight */
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.centeredNavBar {
+  display: flex;
+  gap: 40px; /* Space between links */
+}
+
+.navLink {
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #888; /* Grey links like reference */
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #000;
+}
+
+/* --- HERO SECTION --- */
+/* (Kept your existing hero logic, just ensured it fits nicely) */
+.heroSectionNew {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  margin-bottom: 80px;
+  border-radius: 20px; /* Rounded hero corners like the grid */
+  overflow: hidden;
+}
+.heroImageNew { width: 100%; height: 100%; object-fit: cover; }
+.heroDynamicOverlay {
+  position: absolute; inset: 0; display: flex; justify-content: space-between; align-items: flex-end;
+  padding: 40px; color: white;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+.heroArtworkTitle { font-size: 14px; font-weight: 700; text-transform: uppercase; }
+
+/* Statement Styles (Right Side of Hero) */
+.heroRightContent { text-align: right; max-width: 400px; }
+.statementDisplay p { font-size: 12px; font-weight: 600; line-height: 1.6; text-transform: uppercase; color: #fff; }
+.editBtn, .saveBtn { cursor: pointer; } /* (Keep your edit styles) */
+
+
+/* --- CLEAN GALLERY GRID --- */
+.gallerySection { margin-bottom: 100px; }
+
+.filterWrapper {
+  display: flex;
+  justify-content: center; /* Center the filters */
+  margin-bottom: 40px;
+}
+
+.filterBtn {
+  background: none; border: none; font-size: 12px; margin: 0 10px; cursor: pointer; color: #999;
+}
+.activeFilter { color: #000; font-weight: 700; }
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 Columns */
+  gap: 20px; /* Tight gap */
+}
+
+.artFrame {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.artFrame:hover {
+  transform: translateY(-5px); /* Subtle lift on hover */
+}
+
+.imageContainer {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Square crop or change to 'auto' for masonry look */
+  border-radius: 12px; /* ROUNDED CORNERS LIKE REFERENCE */
+  overflow: hidden;
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- HOVER OVERLAY (Text appears on hover) --- */
+.hoverOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4); /* Darkens image */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+.imageContainer:hover .hoverOverlay {
+  opacity: 1; /* Show on hover */
+}
+
+.hoverTitle { font-size: 14px; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; }
+.hoverMedium { font-size: 11px; font-style: italic; }
+
+/* --- FOOTER SECTIONS --- */
+.infoSection { padding: 60px 0; text-align: center; border-top: 1px solid #eee; }
+.infoTitle { font-size: 14px; font-weight: 700; color: #ccc; margin-bottom: 20px; letter-spacing: 1px; }
+.infoText { max-width: 500px; margin: 0 auto; font-size: 14px; color: #555; line-height: 1.6; }
+.contactLink { font-weight: 700; color: #000; text-decoration: none; border-bottom: 1px solid #000; }

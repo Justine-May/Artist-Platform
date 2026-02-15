@@ -10,9 +10,11 @@ export default function UploadPage() {
   const [file, setFile] = useState<File | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   
+  // Form States
   const [title, setTitle] = useState('')
   const [medium, setMedium] = useState('')
   const [dimensions, setDimensions] = useState('')
+  const [description, setDescription] = useState('') // <--- NEW STATE
   
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -33,11 +35,10 @@ export default function UploadPage() {
     setIsUploading(true)
 
     try {
-      // 1. Get the current authenticated user
       const { data: { user }, error: userError } = await supabase.auth.getUser()
-      if (userError || !user) throw new Error("You must be logged in to publish.")
+      if (userError || !user) throw new Error("You must be logged in.")
 
-      // 2. Upload Image to Storage
+      // 1. Upload Image
       const fileExt = file.name.split('.').pop()
       const fileName = `${Math.random()}.${fileExt}`
       const filePath = `artworks/${fileName}`
@@ -48,35 +49,31 @@ export default function UploadPage() {
 
       if (uploadError) throw uploadError
 
-      // 3. Get Public URL
       const { data: { publicUrl } } = supabase.storage
         .from('gallery')
         .getPublicUrl(filePath)
 
-      // 4. Insert into Database with user_id (Crucial for RLS)
+      // 2. Save Data (INCLUDING DESCRIPTION)
       const { error: dbError } = await supabase
         .from('artworks')
         .insert([{
           title,
           medium,
           dimensions,
+          description, // <--- SAVING TO DATABASE
           image_url: publicUrl,
-          user_id: user.id // The database needs this to satisfy security policies
+          user_id: user.id
         }])
 
       if (dbError) throw dbError
 
-      alert('Success! Your artwork is now in the Atelier.')
+      alert('Success! Artwork published.')
       
       // Reset Form
-      setPreview(null)
-      setFile(null)
-      setTitle('')
-      setMedium('')
-      setDimensions('')
+      setPreview(null); setFile(null);
+      setTitle(''); setMedium(''); setDimensions(''); setDescription('');
 
     } catch (error: any) {
-      console.error('Publishing failed:', error.message)
       alert(`Error: ${error.message}`)
     } finally {
       setIsUploading(false)
@@ -90,6 +87,7 @@ export default function UploadPage() {
       </header>
 
       <div className={styles.grid}>
+        {/* Left Side: Image Upload */}
         <div className={styles.dropZone} onClick={() => fileInputRef.current?.click()}>
           {preview ? (
             <img src={preview} className={styles.previewImage} alt="Preview" />
@@ -102,43 +100,47 @@ export default function UploadPage() {
           <input type="file" ref={fileInputRef} onChange={handleFile} hidden accept="image/*" />
         </div>
 
+        {/* Right Side: Details */}
         <div className={styles.form}>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Artwork Title</label>
             <input 
-              type="text" 
-              className={styles.inputUnderline} 
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              type="text" className={styles.inputUnderline} 
+              value={title} onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Abstract No. 5" 
             />
           </div>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Medium</label>
             <input 
-              type="text" 
-              className={styles.inputUnderline} 
-              value={medium}
-              onChange={(e) => setMedium(e.target.value)}
+              type="text" className={styles.inputUnderline} 
+              value={medium} onChange={(e) => setMedium(e.target.value)}
               placeholder="Oil on Canvas" 
             />
           </div>
           <div className={styles.inputGroup}>
             <label className={styles.label}>Dimensions</label>
             <input 
-              type="text" 
-              className={styles.inputUnderline} 
-              value={dimensions}
-              onChange={(e) => setDimensions(e.target.value)}
+              type="text" className={styles.inputUnderline} 
+              value={dimensions} onChange={(e) => setDimensions(e.target.value)}
               placeholder="100 x 120 cm" 
             />
           </div>
+
+          {/* NEW DESCRIPTION FIELD */}
+          <div className={styles.inputGroup}>
+            <label className={styles.label}>Description / Story</label>
+            <textarea 
+              className={styles.inputUnderline} 
+              value={description} 
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Write about the artwork..."
+              rows={4}
+              style={{ resize: 'none', paddingTop: '10px' }}
+            />
+          </div>
           
-          <button 
-            className={styles.submitBtn} 
-            onClick={handlePublish}
-            disabled={isUploading}
-          >
+          <button className={styles.submitBtn} onClick={handlePublish} disabled={isUploading}>
             {isUploading ? 'Publishing...' : 'Publish to Atelier'}
           </button>
         </div>

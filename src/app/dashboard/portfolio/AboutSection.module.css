@@ -1,0 +1,264 @@
+/* --- SPLIT LAYOUT CONTAINER --- */
+.splitLayout {
+  display: flex;
+  min-height: 80vh; /* Takes up most of the screen height */
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 60px;
+}
+
+/* --- LEFT: IMAGE --- */
+.imageSide {
+  flex: 1; /* Takes 50% width */
+  position: relative;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
+
+.portraitImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image fills the space without stretching */
+  transition: transform 0.5s ease;
+}
+
+/* Hover effect on image */
+.imageSide:hover .portraitImage {
+  transform: scale(1.02);
+}
+
+.imageUploadOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+}
+.imageUploadOverlay p {
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* --- RIGHT: TEXT --- */
+.textSide {
+  flex: 1; /* Takes 50% width */
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  padding: 60px;
+  background: #fff;
+}
+
+.contentWrapper {
+  max-width: 450px;
+  width: 100%;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #000;
+  padding-bottom: 15px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* --- TYPOGRAPHY --- */
+.bioText {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+  white-space: pre-wrap;
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+/* --- EDIT CONTROLS --- */
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  transition: color 0.2s;
+}
+.iconBtn:hover { color: #000; }
+
+.textArea {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: none;
+  background: #fafafa;
+  outline: none;
+  margin-bottom: 20px;
+}
+.textArea:focus {
+  background: #fff;
+  border-color: #000;
+}
+
+.formActions {
+  display: flex;
+  gap: 10px;
+}
+
+.saveBtn, .cancelBtn {
+  flex: 1;
+  border: none;
+  padding: 12px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.saveBtn { background: #000; color: #fff; }
+.cancelBtn { background: #eee; color: #000; }
+
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 768px) {
+  .splitLayout {
+    flex-direction: column; /* Stack on mobile */
+    height: auto;
+  }
+  .imageSide {
+    height: 400px; /* Fixed height for image on mobile */
+  }
+  .textSide {
+    padding: 40px 20px;
+  }
+}
+
+/* --- CONTAINER --- */
+.sectionContainer {
+  display: flex;
+  flex-direction: column; /* Stack Split Layout on top of Banner */
+  border-top: 1px solid #eee;
+  margin-bottom: 60px;
+}
+
+/* --- PART 1: SPLIT LAYOUT --- */
+.splitLayout {
+  display: flex;
+  min-height: 70vh; /* Reduced height slightly to make room for banner */
+  border-bottom: 1px solid #eee;
+}
+
+.imageSide {
+  flex: 1;
+  position: relative;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
+
+.portraitImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.imageSide:hover .portraitImage { transform: scale(1.02); }
+
+.imageUploadOverlay {
+  position: absolute; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: white; cursor: pointer; z-index: 10;
+}
+
+.textSide {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  background: #fff;
+}
+
+.contentWrapper { max-width: 450px; width: 100%; }
+
+/* --- PART 2: STATEMENT BANNER (New!) --- */
+.statementBanner {
+  width: 100%;
+  min-height: 40vh; /* Takes up significant vertical space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff; /* or #000 for inverted look */
+  padding: 80px 40px;
+  text-align: center;
+}
+
+.statementContent {
+  max-width: 900px; /* Limits width so text doesn't span too wide */
+}
+
+.bigStatement {
+  font-size: 42px; /* Huge font size */
+  font-weight: 300; /* Editorial thin weight */
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000;
+  margin: 0;
+}
+
+/* --- TYPOGRAPHY & FORMS --- */
+.headerRow {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 15px;
+}
+.sectionTitle { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin: 0; }
+.bioText { font-size: 16px; line-height: 1.8; color: #333; white-space: pre-wrap; margin-bottom: 40px; }
+.signatureBlock { display: flex; gap: 20px; border-top: 1px solid #eee; padding-top: 20px; }
+.label { font-size: 10px; font-weight: 700; color: #999; letter-spacing: 1px; }
+
+/* Edit Controls */
+.iconBtn { background: none; border: none; cursor: pointer; color: #999; }
+.iconBtn:hover { color: #000; }
+.inputLabel { font-size: 10px; font-weight: 700; color: #999; margin-bottom: 5px; display: block; letter-spacing: 1px; margin-top: 15px; }
+.textArea {
+  width: 100%; padding: 15px; border: 1px solid #ddd; font-family: inherit; font-size: 14px; line-height: 1.6;
+  resize: none; background: #fafafa; outline: none; margin-bottom: 10px;
+}
+.textArea:focus { background: #fff; border-color: #000; }
+.formActions { display: flex; gap: 10px; margin-top: 20px; }
+.saveBtn, .cancelBtn { flex: 1; border: none; padding: 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; }
+.saveBtn { background: #000; color: #fff; }
+.cancelBtn { background: #eee; color: #000; }
+.spinner { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+  .splitLayout { flex-direction: column; min-height: auto; }
+  .imageSide { height: 400px; }
+  .textSide { padding: 40px 20px; }
+  .bigStatement { font-size: 24px; } /* Smaller on mobile */
+  .statementBanner { min-height: 30vh; padding: 40px 20px; }
+}

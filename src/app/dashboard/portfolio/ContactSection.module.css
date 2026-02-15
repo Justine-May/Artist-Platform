@@ -1,0 +1,134 @@
+.contactSection {
+  padding: 100px 60px;
+  background: #fff;
+  color: #000;
+  font-family: 'Inter', sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.mainTitle {
+  font-size: 10rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  margin: 0 0 60px 0;
+  line-height: 0.9;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 100px;
+  margin-bottom: 100px;
+}
+
+.label {
+  font-size: 14px;
+  margin: 0 0 5px 0;
+  font-weight: 500;
+}
+
+.locationBlock, .hoursBlock {
+  margin-bottom: 40px;
+}
+
+/* FORM STYLING */
+.inputGroup {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.formInput, .formTextarea {
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 10px 0;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+}
+
+.submitBtn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 40px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* BOLD FOOTER CONTACT */
+.footerContact {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #eee;
+  padding: 60px 0;
+  margin-top: 60px;
+}
+
+.boldLink {
+  font-size: 3rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+  letter-spacing: -0.02em;
+}
+
+/* SUB FOOTER */
+.subFooter {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 40px;
+  border-top: 1px solid #eee;
+}
+
+.smallText {
+  font-size: 12px;
+  color: #666;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 30px;
+}
+
+.socialLinks a {
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #000;
+}
+
+.editBtn {
+  background: none;
+  border: 1px solid #000;
+  padding: 8px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+@media (max-width: 900px) {
+  .mainTitle { font-size: 5rem; }
+  .grid { grid-template-columns: 1fr; gap: 50px; }
+  .footerContact { flex-direction: column; gap: 30px; }
+  .boldLink { font-size: 1.5rem; }
+}

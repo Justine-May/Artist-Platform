@@ -1,5 +1,6 @@
 'use client'
 import styles from '../../../components/bidding/Bidding.module.css';
+
 export default function BiddingPage() {
   return (
     <div className={styles.contentPadding}>
