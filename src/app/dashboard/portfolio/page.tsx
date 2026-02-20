@@ -3,10 +3,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '@/src/lib/supabase'
 import styles from '../../../components/portfolio/Portfolio.module.css'
-import { Check, LayoutGrid, Loader2, Pencil, RotateCcw, Save, Trash2, X } from 'lucide-react'
+import { Check, Clock, LayoutGrid, Loader2, Pencil, RotateCcw, Save, Trash2, X, Gavel, Tag } from 'lucide-react'
 import AboutSection from './AboutSection'
 import ContactSection from './ContactSection'
-
+                                                                  
 import {
   DndContext, 
   closestCenter,
@@ -27,7 +27,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 
 // --- SORTABLE ITEM COMPONENT ---
-function SortableArt({ art, index, onIdClick, onLocalDelete, userId, isLayoutMode }: any) {
+function SortableArt({ art, index, onIdClick, onLocalDelete, userId, isLayoutMode, onToggleAuction }: any) {
   const {
     attributes,
     listeners,
@@ -63,15 +63,28 @@ function SortableArt({ art, index, onIdClick, onLocalDelete, userId, isLayoutMod
           >
             <h3 className={styles.hoverTitle}>{art.title}</h3>
             <p className={styles.hoverMedium}>{art.medium}</p>
+            {art.is_auction && <span className={styles.auctionBadge}>LIVE AUCTION</span>}
           </div>
           
+          {/* --- ADMIN CONTROLS --- */}
           {userId && isLayoutMode && (
-            <button 
-              className={styles.boutiqueTrashBtn} 
-              onClick={(e) => onLocalDelete(e, art.id)}
-            >
-              <Trash2 size={15} strokeWidth={1.5} />
-            </button>
+            <div className={styles.adminActionOverlay}>
+              <button 
+                className={`${styles.statusToggleBtn} ${art.is_auction ? styles.activeAuction : ''}`}
+                onClick={(e) => { e.stopPropagation(); onToggleAuction(art.id); }}
+                title={art.is_auction ? "Switch to Fixed Sale" : "Switch to Bidding"}
+              >
+                {art.is_auction ? <Gavel size={14} /> : <Tag size={14} />}
+                <span>{art.is_auction ? 'BIDDING' : 'SALE'}</span>
+              </button>
+              
+              <button 
+                className={styles.boutiqueTrashBtn} 
+                onClick={(e) => onLocalDelete(e, art.id)}
+              >
+                <Trash2 size={15} strokeWidth={1.5} />
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -92,6 +105,9 @@ export default function PortfolioPage() {
   const [userId, setUserId] = useState<string | null>(null)
   const [artistName, setArtistName] = useState("")
 
+  const [bidAmount, setBidAmount] = useState<number>(0)
+  const [isPlacingBid, setIsPlacingBid] = useState(false)
+
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
     useSensor(TouchSensor),
@@ -109,14 +125,11 @@ export default function PortfolioPage() {
           setArtistName(profile?.full_name || "ATELIER ARTIST")
         }
 
-        // --- HARDENED FETCH ---
-        // 1. Try fetching by display_order
         let { data: arts } = await supabase
           .from('artworks')
           .select('*')
           .order('display_order', { ascending: true })
 
-        // 2. Fallback if empty or null
         if (!arts || arts.length === 0) {
           const { data: fallback } = await supabase
             .from('artworks')
@@ -125,15 +138,10 @@ export default function PortfolioPage() {
           arts = fallback
         }
 
-        const artworksData = arts || []
-        setArtworks(artworksData)
-        setOriginalArtworks(artworksData) 
-        setFilteredArtworks(artworksData)
-        
-        // Ensure Hero is set
-        if (artworksData.length > 0) {
-          setHeroArt(artworksData[0])
-        }
+        setArtworks(arts || [])
+        setOriginalArtworks(arts || []) 
+        setFilteredArtworks(arts || [])
+        if (arts && arts.length > 0) setHeroArt(arts[0])
       } catch (err) {
         console.error("Fetch failed", err)
       } finally {
@@ -143,14 +151,20 @@ export default function PortfolioPage() {
     fetchData()
   }, [])
 
+  // --- TOGGLE HANDLER ---
+  const toggleAuctionStatus = (id: string) => {
+    setArtworks(prev => prev.map(art => 
+      art.id === id ? { ...art, is_auction: !art.is_auction } : art
+    ))
+  }
+
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (active && over && active.id !== over.id) {
       setArtworks((items) => {
         const oldIndex = items.findIndex((i) => i.id === active.id);
         const newIndex = items.findIndex((i) => i.id === over.id);
-        const newArray = arrayMove(items, oldIndex, newIndex);
-        return newArray;
+        return arrayMove(items, oldIndex, newIndex);
       });
     }
   }
@@ -161,12 +175,17 @@ export default function PortfolioPage() {
     try {
       const updates = artworks.map((art, index) => ({
         id: art.id,
-        display_order: index
+        display_order: index,
+        is_auction: art.is_auction // Added this to persist the choice
       }))
       for (const update of updates) {
-        await supabase.from('artworks').update({ display_order: update.display_order }).eq('id', update.id)
+        await supabase.from('artworks').update({ 
+          display_order: update.display_order,
+          is_auction: update.is_auction 
+        }).eq('id', update.id)
       }
       setIsLayoutMode(false)
+      setOriginalArtworks([...artworks])
     } finally {
       setIsSavingLayout(false)
     }
@@ -175,6 +194,14 @@ export default function PortfolioPage() {
   const handleLocalDelete = (e: React.MouseEvent, id: string) => {
     e.stopPropagation()
     setArtworks(prev => prev.filter(art => art.id !== id))
+  }
+
+  const handlePlaceBid = async (artworkId: string) => {
+    setIsPlacingBid(true)
+    setTimeout(() => {
+      alert(`Bid of $${bidAmount} placed!`)
+      setIsPlacingBid(false)
+    }, 1000)
   }
 
   const scrollToSection = (id: string) => {
@@ -194,13 +221,14 @@ export default function PortfolioPage() {
 
   return (
     <div className={styles.wrapper}>
-      {/* --- MODAL --- */}
+      {/* (Keep Modal, Header, Hero as they are) */}
       {currentArt && (
         <div className={styles.modalOverlay} onClick={() => setSelectedIdx(null)}>
           <div className={styles.editorialModal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.colLeft}>
               <img src={currentArt.image_url} alt={currentArt.title} className={styles.modalMainImage} />
             </div>
+            
             <div className={styles.colCenter}>
               <div className={styles.centerContent}>
                 <h1 className={styles.bigNumber}>{String(selectedIdx! + 1).padStart(2, '0')}/</h1>
@@ -210,6 +238,34 @@ export default function PortfolioPage() {
                     <span><strong>Title:</strong> {currentArt.title}</span><br/>
                     <span><strong>Dimensions:</strong> {currentArt.dimensions}</span>
                 </div>
+
+                {currentArt.is_auction && (
+                  <div className={styles.auctionContainer}>
+                    <div className={styles.auctionHeader}>
+                      <span className={styles.liveDot}>● LIVE</span>
+                      <span className={styles.timeLeft}><Clock size={12}/> 22h : 14m</span>
+                    </div>
+                    <div className={styles.bidInfo}>
+                      <p className={styles.bidLabel}>Current Bid</p>
+                      <h3 className={styles.currentPrice}>${currentArt.current_bid || currentArt.price || '0'}</h3>
+                    </div>
+                    <div className={styles.bidInputArea}>
+                      <input 
+                        type="number" 
+                        placeholder="Enter bid"
+                        className={styles.bidInput}
+                        onChange={(e) => setBidAmount(Number(e.target.value))}
+                      />
+                      <button 
+                        className={styles.placeBidBtn}
+                        onClick={() => handlePlaceBid(currentArt.id)}
+                        disabled={isPlacingBid}
+                      >
+                        {isPlacingBid ? 'PLACING...' : 'PLACE BID'}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
               <button className={styles.closeBtnText} onClick={() => setSelectedIdx(null)}>CLOSE <X size={14}/></button>
             </div>
@@ -217,7 +273,6 @@ export default function PortfolioPage() {
         </div>
       )}
 
-      {/* --- STICKY HEADER --- */}
       <header className={`${styles.centeredHeader} ${styles.stickyHeader}`}>
         <h1 className={styles.headerArtistName}>{artistName}</h1>
         <nav className={styles.centeredNavBar}>
@@ -228,7 +283,6 @@ export default function PortfolioPage() {
         </nav>
       </header>
 
-      {/* --- HERO SECTION --- */}
       <div id="hero">
         {heroArt ? (
           <section className={styles.heroSectionNew}>
@@ -244,7 +298,6 @@ export default function PortfolioPage() {
         )}
       </div>
 
-      {/* --- GALLERY SECTION --- */}
       <div id="gallery" className={styles.gallerySection}>
         <div className={styles.filterWrapper}>
           <nav className={styles.filterBar}>
@@ -283,6 +336,7 @@ export default function PortfolioPage() {
                     index={index} 
                     userId={userId}
                     isLayoutMode={isLayoutMode}
+                    onToggleAuction={toggleAuctionStatus}
                     onIdClick={setSelectedIdx}
                     onLocalDelete={handleLocalDelete}
                 />

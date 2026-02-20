@@ -73,3 +73,146 @@
   border-radius: 6px;
   cursor: pointer;
 }
+.uploadContainer {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #fff;
+  border: 1px solid #000;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+
+.subTitle {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 30px;
+}
+
+.mainInput {
+  width: 100%;
+  padding: 15px 0;
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.mainInput:focus {
+  border-bottom-color: #000;
+}
+
+.toggleGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.toggleCard {
+  padding: 20px;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggleHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.toggleHeader span { flex: 1; }
+
+/* Switch Logic */
+.switch {
+  width: 30px;
+  height: 16px;
+  background: #eee;
+  border-radius: 20px;
+  position: relative;
+}
+
+.knob {
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.activeSale { border-color: #000; }
+.activeBidding { border-color: #ff3b30; }
+
+.activeSale .switch, .activeBidding .switch { background: #000; }
+.activeBidding .switch { background: #ff3b30; }
+.activeSale .knob, .activeBidding .knob { left: 16px; }
+
+/* Pricing Fields */
+.pricingFields {
+  min-height: 80px;
+  margin-bottom: 30px;
+}
+
+.fieldRow {
+  display: flex;
+  gap: 20px;
+  animation: slideDown 0.4s ease forwards;
+}
+
+.fieldItem {
+  flex: 1;
+}
+
+.fieldItem label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  color: #888;
+}
+
+.fieldItem input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #000;
+  font-weight: 700;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 18px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner { animation: spin 1s linear infinite; }
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
