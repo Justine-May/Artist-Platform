@@ -1,101 +1,154 @@
 .container {
-  padding: 40px;
-  background: #fff;
-  min-height: 100vh;
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: fadeIn 0.4s ease;
 }
 
 .header {
-  margin-bottom: 40px;
-  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+  border-bottom: 1px solid #f0f0f0;
   padding-bottom: 20px;
 }
 
-.titleArea {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.title { font-size: 14px; letter-spacing: 0.4em; font-weight: 900; }
+.subtitle { font-size: 11px; color: #888; margin-top: 10px; text-transform: uppercase; }
 
-.iconRed { color: #ff3b30; }
-
-.statsOverview {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 40px;
-}
-
-.statCard {
-  background: #f9f9f9;
-  padding: 20px;
-  flex: 1;
-  border-left: 4px solid #000;
-}
-
-.auctionList {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.biddingRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  border: 1px solid #eee;
-  border-radius: 8px;
-}
-
-.artInfo {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.thumbnail {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.bidDetails {
-  display: flex;
-  gap: 40px;
-}
-
-.dataPoint {
-  display: flex;
-  flex-direction: column;
-}
-
-.label {
-  font-size: 10px;
-  text-transform: uppercase;
-  color: #888;
-  font-weight: 800;
-}
-
-.value {
-  font-weight: 700;
-}
-
-.manageBtn {
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
+.liveIndicator {
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1px;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
 }
 
-.loader {
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 60px;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.bidCard {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 100vh;
+  justify-content: space-between;
+  padding: 25px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: padding 0.2s ease;
+}
+
+.bidCard:hover {
+  padding-left: 10px;
+  border-bottom-color: #000;
+}
+
+.bidInfo h3 { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; }
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 5px;
+}
+
+.priceInfo { text-align: right; margin-right: 40px; }
+.priceLabel { font-size: 8px; font-weight: 900; color: #aaa; display: block; }
+.priceValue { font-size: 16px; font-weight: 900; }
+
+.actionBtn {
+  background: none;
+  border: 1px solid #eee;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.actionBtn:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.historyItem {
+  display: flex;
+  gap: 15px;
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loadingState {
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #888;
+}
+
+.spin { animation: rotate 1s linear infinite; }
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.emptyMsg {
+  font-size: 11px;
+  color: #bbb;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+.statBox {
+  background: #fafafa;
+  padding: 30px;
+  border: 1px solid #f0f0f0;
+}
+
+.statLabel {
+  font-size: 9px;
+  font-weight: 900;
+  color: #aaa;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.statValue {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -1px;
 }

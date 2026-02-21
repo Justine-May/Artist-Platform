@@ -1,0 +1,126 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  font-family: 'Inter', sans-serif;
+  color: #000;
+}
+
+.minimalBrand { font-size: 20px; margin-bottom: 20px; text-align: center; }
+
+.title {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.5em;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 10px;
+  color: #888;
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* Selection Grid */
+.selectionGrid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px;
+  gap: 1px;
+  background: #eee;
+  border: 1px solid #eee;
+}
+
+.roleCard {
+  background: #fff;
+  border: none;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.roleCard:hover { background: #fafafa; padding-left: 35px; }
+
+.roleLabel { font-size: 12px; font-weight: 900; letter-spacing: 0.2em; }
+
+/* Auth Form Card */
+.authCard { width: 100%; max-width: 340px; padding: 20px; }
+
+.tabGroup { display: flex; margin-bottom: 40px; gap: 30px; border-bottom: 1px solid #f0f0f0; }
+
+.tabGroup button {
+  background: none;
+  border: none;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #ccc;
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+
+.tabGroup button.activeTab { color: #000; border-bottom: 1px solid #000; }
+
+.inputWrapper input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 15px 0;
+  font-size: 12px;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.submitBtn {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 20px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  cursor: pointer;
+  margin-top: 30px;
+}
+
+.signOutBtn {
+  width: 100%;
+  background: none;
+  border: 1px solid #f0f0f0;
+  color: #888;
+  padding: 15px;
+  font-size: 10px;
+  font-weight: 900;
+  margin-top: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.backLink {
+  background: none;
+  border: none;
+  font-size: 10px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 40px;
+  cursor: pointer;
+  color: #888;
+}
+
+.spin { animation: rotate 1s linear infinite; }
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

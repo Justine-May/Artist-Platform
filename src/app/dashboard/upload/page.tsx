@@ -53,29 +53,33 @@ export default function UploadArtwork() {
     e.preventDefault()
     if (!imageUrl) return alert("Please upload an image.")
     if (!userId) return alert("Please log in.")
-    if (isBidding && !endDate) return alert("Please set an auction end date.")
     
     setLoading(true)
+
+    // Robust Payload: Ensures data types match Supabase expectations
     const payload = {
       user_id: userId,
-      title,
-      medium,
-      dimensions,
-      description,
+      title: title.trim(),
+      medium: medium.trim(),
+      dimensions: dimensions.trim(),
+      description: description.trim(),
       image_url: imageUrl,
       is_auction: isBidding,
       is_for_sale: isSale,
-      price: parseFloat(price) || 0,
-      bid_increment: isBidding ? parseFloat(increment) : null,
+      price: price ? parseFloat(price) : 0,
+      bid_increment: isBidding ? (parseFloat(increment) || 10) : null,
       end_time: isBidding && endDate ? new Date(endDate).toISOString() : null,
       display_order: 0 
     }
 
     const { error } = await supabase.from('artworks').insert([payload])
+
     if (error) {
-      alert(`Error: ${error.message}`)
+      console.error("Supabase Error:", error)
+      alert(`Database Error: ${error.message}. Check if all columns exist in your table.`)
     } else {
-      alert("Artwork Published!")
+      alert("Success! Artwork is now live in your Atelier.")
+      // Reset State
       setTitle(''); setMedium(''); setDimensions(''); setDescription(''); setImageUrl('');
       setIsBidding(false); setIsSale(false); setEndDate(''); setPrice(''); setIncrement('10');
     }
@@ -84,6 +88,7 @@ export default function UploadArtwork() {
 
   return (
     <div className={styles.uploadBox}>
+      {/* ... (Keep your existing JSX as it is perfectly structured) ... */}
       <form onSubmit={handleUpload}>
         <div className={styles.uploadZone} onClick={() => fileInputRef.current?.click()}>
           <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" style={{display: 'none'}} />
@@ -113,7 +118,6 @@ export default function UploadArtwork() {
           </button>
         </div>
 
-        {/* --- REBUILT PRICING SECTION --- */}
         {(isSale || isBidding) && (
           <div className={styles.pricingWrapper}>
             <div className={styles.row}>
@@ -125,7 +129,6 @@ export default function UploadArtwork() {
                  </div>
               </div>
 
-              {/* Explicit Bidding Fields */}
               {isBidding && (
                 <>
                   <div className={styles.fieldItem}>

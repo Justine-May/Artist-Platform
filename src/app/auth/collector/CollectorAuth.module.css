@@ -1,0 +1,96 @@
+.authWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fdfdfd;
+  padding: 20px;
+}
+
+.authCard {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid #000;
+  padding: 60px 40px;
+  box-shadow: 20px 20px 0px #f0f0f0;
+}
+
+.brandHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.accentIcon { color: #ff3b30; margin-bottom: 10px; }
+
+.brandHeader h1 {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.brandHeader p {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.5;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+  margin-bottom: 25px;
+  color: #ccc;
+}
+
+.inputGroup:focus-within {
+  border-bottom-color: #000;
+  color: #000;
+}
+
+.inputGroup input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 20px;
+  background: #000;
+  color: #fff;
+  border: none;
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: opacity 0.3s;
+}
+
+.btnContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.switchBtn {
+  display: block;
+  margin: 30px auto 0;
+  background: none;
+  border: none;
+  font-size: 11px;
+  text-decoration: underline;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

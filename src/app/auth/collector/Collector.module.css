@@ -1,0 +1,85 @@
+.container {
+  min-height: 100vh;
+  padding: 40px 60px;
+  background: #fff;
+  color: #000;
+}
+
+.exhibitionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.brand { font-size: 11px; font-weight: 900; letter-spacing: 0.3em; }
+.controls { display: flex; gap: 30px; color: #888; cursor: pointer; }
+
+.hero { margin-bottom: 100px; text-align: center; }
+.hero h1 { font-size: 48px; font-weight: 900; letter-spacing: 0.2em; margin-bottom: 10px; }
+.hero p { font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 0.4em; }
+
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 60px 40px;
+}
+
+.workCard { text-decoration: none; color: inherit; }
+
+.imageWrapper {
+  aspect-ratio: 4/5;
+  background: #f7f7f7;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.placeholderImage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #ccc;
+  letter-spacing: 2px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.05);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.workCard:hover .overlay { opacity: 1; }
+
+.bidIcon {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.workTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.workTitleRow h3 { font-size: 13px; font-weight: 800; letter-spacing: 0.05em; }
+.price { font-size: 12px; font-weight: 400; color: #666; }
+.wishlist { color: #ccc; transition: color 0.2s; }
+.wishlist:hover { color: #ff3b30; }

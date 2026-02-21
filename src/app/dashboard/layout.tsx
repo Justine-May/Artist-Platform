@@ -1,54 +1,72 @@
 'use client'
 
 import { useState } from 'react'
-import { LayoutDashboard, Upload, Palette, Gavel, ChevronLeft, ChevronRight } from 'lucide-react'
+import { supabase } from '@/src/lib/supabase'
+import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import styles from './Dashboard.module.css'
+import { 
+  LayoutDashboard, 
+  Image as ImageIcon, 
+  Gavel, 
+  UploadCloud, 
+  LogOut, 
+  ChevronLeft, 
+  Menu 
+} from 'lucide-react'
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function ArtistLayout({ children }: { children: React.ReactNode }) {
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const router = useRouter()
   const pathname = usePathname()
 
-  const menuItems = [
-    { name: 'Dashboard', icon: <LayoutDashboard size={22}/>, path: '/dashboard' },
-    { name: 'Upload Artwork', icon: <Upload size={22}/>, path: '/dashboard/upload' },
-    { name: 'Portfolio', icon: <Palette size={22}/>, path: '/dashboard/portfolio' },
-    { name: 'Bidding', icon: <Gavel size={22}/>, path: '/dashboard/bidding' },
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/auth')
+    router.refresh()
+  }
+
+  const navItems = [
+    { label: 'OVERVIEW', path: '/dashboard', icon: <LayoutDashboard size={18} /> },
+    { label: 'PORTFOLIO', path: '/dashboard/portfolio', icon: <ImageIcon size={18} /> },
+    { label: 'BIDDING', path: '/dashboard/bidding', icon: <Gavel size={18} /> },
+    { label: 'UPLOAD', path: '/dashboard/upload', icon: <UploadCloud size={18} /> },
   ]
 
   return (
-    <div className={styles.container}>
-      {/* THE ONLY SIDEBAR */}
+    <div className={styles.layoutWrapper}>
       <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
+        <button className={styles.toggleBtn} onClick={() => setIsCollapsed(!isCollapsed)}>
+          {isCollapsed ? <Menu size={16} /> : <ChevronLeft size={16} />}
+        </button>
+
         <div className={styles.sidebarHeader}>
-          {!isCollapsed && <span className={styles.logo}>muro</span>}
-          <button 
-            onClick={() => setIsCollapsed(!isCollapsed)} 
-            className={styles.toggleBtn}
-          >
-            {isCollapsed ? <ChevronRight size={18}/> : <ChevronLeft size={18}/>}
-          </button>
+          <div className={styles.brandDot}>●</div>
+          {!isCollapsed && <span className={styles.brandName}>ATELIER.</span>}
         </div>
 
         <nav className={styles.nav}>
-          {menuItems.map((item) => (
+          {navItems.map((item) => (
             <Link 
-              key={item.name} 
+              key={item.path} 
               href={item.path} 
-              className={`${styles.navItem} ${pathname === item.path ? styles.active : ''}`}
+              className={`${styles.navLink} ${pathname === item.path ? styles.active : ''}`}
             >
               <span className={styles.icon}>{item.icon}</span>
-              <span className={styles.label}>{item.name}</span>
+              {!isCollapsed && <span className={styles.label}>{item.label}</span>}
             </Link>
           ))}
         </nav>
+
+        <footer className={styles.sidebarFooter}>
+          <button onClick={handleSignOut} className={styles.signOutBtn}>
+            <LogOut size={18} />
+            {!isCollapsed && <span>EXIT STUDIO</span>}
+          </button>
+        </footer>
       </aside>
 
-      {/* MAIN CONTENT FEED - This will now fill the screen correctly */}
-      <main className={styles.mainFeed}>
-        {children}
-      </main>
+      <main className={styles.mainContent}>{children}</main>
     </div>
   )
 }

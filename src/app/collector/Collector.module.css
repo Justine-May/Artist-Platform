@@ -1,0 +1,156 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 40px;
+}
+
+.header h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+  margin-bottom: 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 350px; /* Main collection vs Sidebar bids */
+  gap: 60px;
+  margin-top: 60px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.sectionHeader h2 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 800;
+}
+
+/* Collector Cards */
+.collectorCard {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid #eee;
+  margin-bottom: 15px;
+  position: relative;
+  transition: 0.3s;
+}
+
+.collectorCard:hover { border-color: #000; }
+
+.collectorCard img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.statusLine {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.highBid {
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.timer {
+  font-size: 11px;
+  color: #ff3b30;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Collection Grid */
+.collectionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.ownedArt {
+  aspect-ratio: 1/1;
+  position: relative;
+  overflow: hidden;
+  background: #f9f9f9;
+}
+
+.ownedArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ownedOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 8px;
+  text-align: center;
+}
+
+.collectorWrapper { background: #ffffff; min-height: 100vh; }
+
+.topNav {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 100;
+}
+
+.brandDot { font-size: 14px; }
+.brandName { font-size: 10px; font-weight: 900; letter-spacing: 0.3em; margin-left: 10px; }
+
+.navCenter { display: flex; gap: 40px; }
+
+.navLink {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #888;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navLink:hover, .navLink.active { color: #000; }
+
+.logoutIconButton {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+}
+
+.logoutIconButton:hover { color: #000; }
+
+.logoutText { font-size: 10px; font-weight: 900; letter-spacing: 0.1em; }
+
+.galleryContent { padding: 60px; }
